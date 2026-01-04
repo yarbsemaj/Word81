@@ -1,0 +1,17 @@
+{
+  "name": "generate-data",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "pack": "node packWords.js",
+    "simulate": "node unPackSimulator.js",
+    "test": "npm run simulate"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@andrivet/z80-assembler": "^2.0.0",
+    "z80-emulator": "^2.3.0"
+  }
+}
