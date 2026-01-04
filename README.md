@@ -21,6 +21,8 @@ You can play Word81 online [here](https://zx81.yarbsemaj.com/?id=word81)
 
 # Acknowledgments
 Wordle concept by [Josh Wardle](https://en.wikipedia.org/wiki/Wordle_(game))
+
 Word List from [darkermango/5-Letter-words](https://github.com/darkermango/5-Letter-words?tab=readme-ov-file)
+
 Boilerplate libs provided by [Tim Swenson](http://swensont.epizy.com/?i=1)
 
