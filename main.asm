@@ -42,7 +42,7 @@ KEY_LOOP:
 	JR		C, KEY_ACCEPT
 	JR		KEY_LOOP
 KEY_ACCEPT:
-	PUSH	AF						;Save the pressed key
+	LD		(scratchPad1_8Bit),A	;Save the pressed key
 	LD		A, (bufferL)			;Get the Current Buffer Length 
 	CP		5						;Are we at the end of the buffer
 	JR		Z, KEY_LOOP				;If so, go home
@@ -52,7 +52,7 @@ KEY_ACCEPT:
 	ADD		HL, BC					;Jump to the end of the buffer
 	INC		A
 	LD		(bufferL), A
-	POP		AF						;Get by the pressed key
+	LD		A,(scratchPad1_8Bit)	;Get by the pressed key
 	LD		(HL), A					;Save the chat to the buffer
 	CALL	REDRAW_ACTIVE_LINE
 
