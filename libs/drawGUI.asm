@@ -236,7 +236,7 @@ PLAY_AGAIN_LOOP
 	CALL	FINDCHAR				; Translate keyboard result to character
 	LD		A,(HL)					; Put results into reg a
 	CP		_Y						;
-	JP 		Z, PROG_START				;
+	JP 		Z, INIT_GAME				;
 	CP		_N						;
 	JR 		Z, QUIT					;
 	LD		BC,$1200				; Set pause to $1200

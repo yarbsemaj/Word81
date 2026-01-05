@@ -13,6 +13,13 @@ include "libs/charcode.asm"
 include "libs/rom.asm"
 
 PROG_START:
+	JP		INIT_GAME
+	.ORG	408Ch
+words:
+include "data/words_packed.asm"
+	.byte	$FF
+
+INIT_GAME:
 	CALL 	CLS
 	CALL 	INIT_VARS
 	CALL 	GET_WORD
@@ -79,12 +86,11 @@ ENTER_GUESS:
 	CP		5
 	JR		NZ, DELAY_TS		;Guess Not Long Enough
 CHECK_WORD_IN_DICTIONARY:
-	LD		HL, words - 4
+	LD		HL, words - 3
 	LD		(scratchPad1_16Bit), HL
 	CALL	PRINT_THINKING
 CHECK_WORD_IN_DICTIONARY_LOOP:
 	LD		HL, (scratchPad1_16Bit)
-	INC		HL
 	INC		HL
 	INC		HL
 	INC		HL
@@ -256,9 +262,8 @@ GET_WORD:
 	AND		00000111b
 	LD		D,A
 	INC		DE
-	LD		HL, words - 4 ; We always add 5 to the array offset 
+	LD		HL, words - 3 ; We always add 5 to the array offset 
 GET_WORD_LOOP:
-	INC		HL
 	INC		HL
 	INC		HL
 	INC		HL
@@ -300,9 +305,6 @@ include "libs/keyboard.asm"
 include "libs/drawGUI.asm"
 keyboardOffsets:
 include "data/keyboardOffset.asm"
-words:
-include "data/words_packed.asm"
-	.byte	$FF
 varStart:
 ;Scratch PAD Vars
 scratchPad1_8Bit;

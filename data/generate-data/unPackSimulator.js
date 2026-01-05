@@ -7,11 +7,18 @@ import fs from 'fs';
 const z80src = `
 _A    .equ $26
     ORG 0x8000
+    LD A, (0x900A) ; Load odd/even flag
+    OR A
+    JR NZ, ODD
     LD HL,0x9000
+UNPACK_WORD_START:
     LD DE,0x9100
     CALL UNPACK_WORD
     HALT
 
+ODD:
+    LD HL,0x9001
+    JR UNPACK_WORD_START
 include "../../libs/unpackWord.asm"
 `;
 
@@ -35,16 +42,18 @@ const packedLines = fs.readFileSync('../words_packed.asm', 'utf8')
 let errors = 0;
 for (let idx = 0; idx < packedLines.length; idx++) {
   const packed = packedLines[idx].match(/\.BYTE\s+([^;]+)/)[1].split(',').map(b => parseInt(b.trim()));
+  const odd = packedLines[idx].includes('(odd)');
   // Extract expected word from comment
   const commentMatch = packedLines[idx].match(/;\s*([A-Z]{5})\s*$/);
   const expected = commentMatch ? commentMatch[1] : '';
   // Set up HAL and memory for each word
   const hal = new Hal();
   hal.memory.set(bytes, 0x8000); // Load code at 0x8000
-  hal.memory.set(packed, 0x9000); // Place packed word at 0x9000
+  hal.memory.set(packed, odd ? 0x9001 : 0x9000); // Place packed word at 0x9000
+  hal.memory[0x900A] = odd ? 1 : 0; // Set odd/even flag
   // Create Z80 instance, passing HAL
   const cpu = new Z80(hal);
-  cpu.regs.pc = 0x8000;
+  cpu.regs.pc = 0x8000; // Set PC to start of our code
   // Run until HALT (0x76) or RET (0xC9)
   let steps = 0;
   while (steps < 10000) {
