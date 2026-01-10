@@ -2,4 +2,4 @@
 *.lst
 *.sym
 /zout/*
-.vscode/*
+.tmp

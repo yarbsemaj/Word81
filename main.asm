@@ -6,17 +6,19 @@ keyboard_both_bit equ 2
 keyboard_char_bit equ 1
 keyboard_no_match_bit equ 0
 
+	DEVICE NOSLOT64K
+
 AUTORUN  .equ line1
-include "libs/sysvars.asm"
-include "libs/line0.asm"
-include "libs/charcode.asm"
-include "libs/rom.asm"
+       include "libs/sysvars.asm"
+       include "libs/line0.asm"
+       include "libs/charcode.asm"
+       include "libs/rom.asm"
 
 PROG_START:
 	JP		INIT_GAME
 	.ORG	408Ch
 words:
-include "data/words_packed.asm"
+       include "data/words_packed.asm"
 	.byte	$FF
 
 INIT_GAME:
@@ -287,7 +289,7 @@ PRINT_ACTIVE_WORD_LOOP:
 	DJNZ	PRINT_ACTIVE_WORD_LOOP
 	RET
 
-; the ordering of this file's includes is critical - don't change it.
+; the ordering of this file's        includes is critical - don't change it.
 ;
 WIN_MESSAGE:
 		.byte	_Y,_O,_U,$00,_W,_O,_N,$ff
@@ -300,11 +302,11 @@ THINKING:
 WORD_INVALID:
 		.byte	_W,_O,_R,_D,$00,_N,_O,_T,$00,_I,_N,$00,_L,_I,_S,_T,$ff
 
-include "libs/unpackWord.asm"
-include "libs/keyboard.asm"
-include "libs/drawGUI.asm"
+       include "libs/unpackWord.asm"
+       include "libs/keyboard.asm"
+       include "libs/drawGUI.asm"
 keyboardOffsets:
-include "data/keyboardOffset.asm"
+       include "data/keyboardOffset.asm"
 varStart:
 ;Scratch PAD Vars
 scratchPad1_8Bit;
@@ -332,6 +334,6 @@ bufferL:
 varEnd:
 
 
-include "libs/line1.asm"
+       include "libs/line1.asm"
 
 
